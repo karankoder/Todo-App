@@ -1,0 +1,60 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TaskHive</title>
+    <link rel="shortcut icon" href="{% static 'TaskHive/check-list.png' %}" type="image/x-icon">
+    <link rel="stylesheet" href="{% static 'TaskHive/homepage.css' %}">
+    <link href="{% static 'fontawesomefree/css/all.min.css' %}" rel="stylesheet" type="text/css">
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css"/>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css"/>
+</head>
+<body>
+    <div class="container">
+        <div class="screen">
+            <div class="screen__content">
+                <form class="login" method="post">
+                    {% csrf_token %}
+                    <div class="login__field">
+                        <i class="login__icon fas fa-user"></i>
+                        <input required name="username" type="text" class="login__input" placeholder="Username">
+                    </div>
+                    <div class="login__field">
+                      <i class="login__icon fas fa-lock"></i>
+                     <input required name="password" type="password" class="login__input" placeholder="Password">
+                    </div>
+                    <button class="button login__submit">
+                        <span class="button__text">Log In Now</span>
+                        <i class="button__icon fas fa-chevron-right"></i>
+                    </button>				
+                </form>
+                <div class="social-login">
+                    <h5>Not Registered?</h5>
+                    <a href="/signup/">Signup Here</a>
+                </div>
+            </div>
+            <div class="screen__background">
+                <span class="screen__background__shape screen__background__shape4"></span>
+                <span class="screen__background__shape screen__background__shape3"></span>		
+                <span class="screen__background__shape screen__background__shape2"></span>
+                <span class="screen__background__shape screen__background__shape1"></span>
+            </div>		
+        </div>
+    </div>
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+    <script>
+        {% for message in messages %}
+        var delay = alertify.get('notifier','delay');
+        alertify.set('notifier','delay', 2);
+        alertify.set('notifier','position', 'top-center');
+        alertify.success('{{message}}');
+        alertify.set('notifier','delay', delay);
+        {% endfor %}
+    </script>
+    
+</body>
+</html>

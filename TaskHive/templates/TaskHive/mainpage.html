@@ -1,0 +1,72 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>TaskHive</title>
+  <link rel="stylesheet" href="{% static 'TaskHive/mainpage.css' %}">
+  <link rel="shortcut icon" href="{% static 'TasKHive/check-list.png' %}" type="image/x-icon">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.2/css/all.min.css" integrity="sha512-z3gLpd7yknf1YoNbCzqRKc4qyor8gaKU1qmn+CShxbuBusANI9QpRohGBreCFkKxLhei6S9CQXFEbbKuqLg0DA==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/alertify.min.css"/>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/default.min.css"/>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/semantic.min.css"/>
+    <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/css/themes/bootstrap.min.css"/>
+</head>
+<body>
+    <div class="main-body">
+        <div class="navbar">
+            <div class="left-nav">
+                <img src="{% static 'TaskHive/check-list.png' %}" alt="">
+                <span>TaskHive</span>
+            </div>
+            <div class="mid-nav">
+                Welcome {{ request.user.username}}
+            </div>
+            <div class="right-nav">
+                <a href="/logout/"><button class="btn">Logout</button></a>
+            </div>
+        </div>
+        <form action="/add-todo/" method="POST">
+            {% csrf_token %}
+            <div class="add-task">
+                <input name="title" class="task" type="text" placeholder="Add your task">
+                <button class="task-btn">Add</button>
+            </div>
+        </form>
+        <div class="task-font">
+            {% if tasks %}
+            Your Tasks
+            {% endif %}
+        </div>
+        <div class="task-list">
+            {% if tasks %}
+            {% for task in tasks %}
+            <div class="task-content">
+                <div class="task-text">
+                    {{ task.title }}
+                </div>
+                <a href="#"><i class="icon fa-solid fa-pen-to-square" style="color: #4c489d;"></i></a>
+                <a href="/delete-task/{{task.id}}"><i class="icon fa-solid fa-trash" style="color: #4c489d;"></i></a>
+            </div>
+            {% endfor %}
+            {% else %}
+            <div class="empty-task">
+                No Tasks Available
+            </div>
+            {% endif %}
+        </div>
+    </div> 
+    <script src="//cdn.jsdelivr.net/npm/alertifyjs@1.13.1/build/alertify.min.js"></script>
+    <script>
+        {% for message in messages %}
+        var delay = alertify.get('notifier','delay');
+        alertify.set('notifier','delay', 2);
+        alertify.set('notifier','position', 'top-center');
+        alertify.success('{{message}}');
+        alertify.set('notifier','delay', delay);
+        {% endfor %}
+        
+    </script>
+</body>
+</html>
